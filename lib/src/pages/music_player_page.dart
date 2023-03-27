@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_player/src/helpers/helpers.dart';
 import 'package:flutter_music_player/src/widgets/custom_appbar.dart';
 
 class MusicPlayerPage extends StatelessWidget {
@@ -9,9 +10,80 @@ class MusicPlayerPage extends StatelessWidget {
       body: Column(
         children: const [
           CustomAppbar(),
-
           ImagenDiscoDuracion(),
-          // Text('Hola Mundo'),
+          TituloPlay(),
+          Expanded(
+            child: Lyrics(),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class Lyrics extends StatelessWidget {
+  const Lyrics({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final lyrics = getLyrics();
+
+    return Container(
+      child: ListWheelScrollView(
+          itemExtent: 42,
+          diameterRatio: 1.5,
+          physics: const BouncingScrollPhysics(),
+          children: lyrics
+              .map((e) => Text(
+                    e,
+                    style: TextStyle(
+                        fontSize: 20, color: Colors.white.withOpacity(0.6)),
+                  ))
+              .toList()),
+    );
+  }
+}
+
+class TituloPlay extends StatelessWidget {
+  const TituloPlay({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 50),
+      margin: const EdgeInsets.only(top: 40),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Text(
+                'Far away',
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white.withOpacity(0.8),
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '-Breaking Benjamin-',
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.white.withOpacity(0.5),
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          const Spacer(),
+          FloatingActionButton(
+            elevation: 0,
+            highlightElevation: 0,
+            backgroundColor: const Color(0xFFF8CB51),
+            child: const Icon(Icons.play_arrow),
+            onPressed: () {},
+          )
         ],
       ),
     );
