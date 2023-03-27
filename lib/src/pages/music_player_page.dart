@@ -7,15 +7,43 @@ class MusicPlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: const [
-          CustomAppbar(),
-          ImagenDiscoDuracion(),
-          TituloPlay(),
-          Expanded(
-            child: Lyrics(),
-          )
+      body: Stack(
+        children: [
+          const Background(),
+          Column(
+            children: const [
+              CustomAppbar(),
+              ImagenDiscoDuracion(),
+              TituloPlay(),
+              Expanded(
+                child: Lyrics(),
+              )
+            ],
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class Background extends StatelessWidget {
+  const Background({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Container(
+      width: double.infinity,
+      height: size.height * 0.8,
+      // color: Colors.red,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(60)),
+        gradient: LinearGradient(colors: [
+          Color(0xFF33333E),
+          Color(0xFF201E28),
+        ], begin: Alignment.centerLeft, end: Alignment.center),
       ),
     );
   }
@@ -57,6 +85,7 @@ class TituloPlay extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 50),
       margin: const EdgeInsets.only(top: 40),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Column(
             children: [
@@ -102,6 +131,7 @@ class ImagenDiscoDuracion extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 30),
       margin: const EdgeInsets.only(top: 70),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           // TODO: Disco
           const ImagenDisco(),
