@@ -1,6 +1,9 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music_player/src/helpers/helpers.dart';
+import 'package:flutter_music_player/src/models/audioplayer_model.dart';
 import 'package:flutter_music_player/src/widgets/custom_appbar.dart';
+import 'package:provider/provider.dart';
 
 class MusicPlayerPage extends StatelessWidget {
   const MusicPlayerPage({super.key});
@@ -138,12 +141,17 @@ class _TituloPlayState extends State<TituloPlay>
               color: Colors.black,
             ),
             onPressed: () {
+              final audioPlayerModel =
+                  Provider.of<AudioPlayerModel>(context, listen: false);
+
               if (isPlaying) {
                 _animationController.reverse();
                 isPlaying = false;
+                audioPlayerModel.controller.stop();
               } else {
                 _animationController.forward();
                 isPlaying = true;
+                audioPlayerModel.controller.repeat();
               }
             },
           )
@@ -238,6 +246,7 @@ class ImagenDisco extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final audioProvider = Provider.of<AudioPlayerModel>(context);
     return Container(
       width: 200,
       height: 200,
@@ -258,8 +267,15 @@ class ImagenDisco extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            const Image(
-              image: AssetImage('assets/aurora.jpg'),
+            SpinPerfect(
+              duration: const Duration(seconds: 10),
+              infinite: true,
+              // manualTrigger: true,
+              controller: (animationController) =>
+                  audioProvider.controller = animationController,
+              child: const Image(
+                image: AssetImage('assets/aurora.jpg'),
+              ),
             ),
             Container(
               width: 25,
